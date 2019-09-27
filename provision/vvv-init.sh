@@ -3,7 +3,13 @@
 
 echo "Custom fork"
 
-echo `get_config_value 'site_title' "${DOMAIN}"`
+echo Hello, who am I talking to?
+
+read varname
+
+echo It\'s nice to meet you $varname
+
+echo "`get_config_value 'site_title' "${DOMAIN}"`"
 
 echo `get_config_value 'foobar'`
 
