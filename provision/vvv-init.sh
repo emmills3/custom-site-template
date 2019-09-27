@@ -3,6 +3,10 @@
 
 echo "Custom fork"
 
+echo `get_config_value 'site_title' "${DOMAIN}"`
+
+echo `get_config_value 'foobar'`
+
 # fetch the first host as the primary domain. If none is available, generate a default using the site name
 DOMAIN=`get_primary_host "${VVV_SITE_NAME}".test`
 SITE_TITLE=`get_config_value 'site_title' "${DOMAIN}"`
