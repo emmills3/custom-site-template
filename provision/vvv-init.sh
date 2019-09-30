@@ -5,6 +5,7 @@
 WP_REPO=`get_config_value 'wp_repo' ''`
 PARENT_THEME_REPO=`get_config_value 'parent_theme_repo' ''`
 CHILD_THEME_REPO=`get_config_value 'child_theme_repo' ''`
+CHILD_THEME_NAME=`get_config_value 'child_theme_name' ''`
 
 echo "BK1"
 echo "${WP_REPO}"
@@ -35,11 +36,23 @@ touch ${VVV_PATH_TO_SITE}/log/access.log
 if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-load.php" ]]; then
 
   if [ -z ${WP_REPO} ]; then
-    echo "Downloading WordPress...1"
+    echo "Downloading WordPress..."
     noroot wp core download --version="${WP_VERSION}"
   else
-    echo "Downloading WordPress...2"
+    echo "Downloading Custom WordPress..."
     git clone ${WP_REPO} ${VVV_PATH_TO_SITE}/public_html
+
+    if [ -z ${PARENT_THEME_REPO} ]; then
+      echo "Downloading Parent Theme..."
+      git clone ${PARENT_THEME_REPO} ${VVV_PATH_TO_SITE}/public_html/wp-content/${PARENT_THEME_NAME}
+    fi
+
+    if [ -z ${PARENT_THEME_REPO} ]; then
+      echo "Downloading Child Theme..."
+      git clone ${CHILD_THEME_REPO} ${VVV_PATH_TO_SITE}/public_html/wp-content/themes/${CHILD_THEME_NAME}
+    fi
+
+
   fi
 
 fi
