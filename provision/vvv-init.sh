@@ -37,16 +37,16 @@ if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-load.php" ]]; then
 
   if [ ${WP_REPO} ]; then
     echo "Downloading Custom WordPress..."
-    git clone ${WP_REPO} ${VVV_PATH_TO_SITE}/public_html
+    noroot git clone ${WP_REPO} ${VVV_PATH_TO_SITE}/public_html
 
     if [ ${PARENT_THEME_REPO} ]; then
       echo "Downloading Parent Theme..."
-      git clone ${PARENT_THEME_REPO} ${VVV_PATH_TO_SITE}/public_html/wp-content/
+      noroot git clone ${PARENT_THEME_REPO} ${VVV_PATH_TO_SITE}/public_html/wp-content/
     fi
 
     if [ ${CHILD_THEME_REPO} ]; then
       echo "Downloading Child Theme..."
-      git clone ${CHILD_THEME_REPO} ${VVV_PATH_TO_SITE}/public_html/wp-content/themes/${CHILD_THEME_NAME}
+      noroot git clone ${CHILD_THEME_REPO} ${VVV_PATH_TO_SITE}/public_html/wp-content/themes/${CHILD_THEME_NAME}
     fi
 
   else 
