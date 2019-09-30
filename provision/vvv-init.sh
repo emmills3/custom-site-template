@@ -1,3 +1,22 @@
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@emmills3 
+0
+0121emmills3/custom-site-template
+forked from 0aveRyan/custom-site-template
+ Code Pull requests 0 Projects 0 Security Insights Settings
+custom-site-template/provision/vvv-init.sh
+@emmills3 emmills3 Update vvv-init.sh
+0aaad7c 10 minutes ago
+@emmills3@LoreleiAurora@tomjn@widoz
+106 lines (86 sloc)  3.8 KB
+  
 #!/usr/bin/env bash
 # Provision WordPress Stable
 
@@ -5,7 +24,7 @@
 WP_REPO=`get_config_value 'wp_repo' ''`
 PARENT_THEME_REPO=`get_config_value 'parent_theme_repo' ''`
 CHILD_THEME_REPO=`get_config_value 'child_theme_repo' ''`
-CHILD_THEME_NAME=`get_config_value 'child_theme_name' ''`
+CHILD_THEME_NAME=`get_config_value 'child_theme_name' 'child-theme'`
 
 echo "BK1"
 echo "${WP_REPO}"
@@ -35,24 +54,23 @@ touch ${VVV_PATH_TO_SITE}/log/access.log
 # MY INTERRUPT
 if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-load.php" ]]; then
 
-  if [ -z ${WP_REPO} ]; then
-    echo "Downloading WordPress..."
-    noroot wp core download --version="${WP_VERSION}"
-  else
+  if [ ${WP_REPO} ]; then
     echo "Downloading Custom WordPress..."
     git clone ${WP_REPO} ${VVV_PATH_TO_SITE}/public_html
 
     if [ ${PARENT_THEME_REPO} ]; then
       echo "Downloading Parent Theme..."
-      git clone ${PARENT_THEME_REPO} ${VVV_PATH_TO_SITE}/public_html/wp-content/${PARENT_THEME_NAME}
+      git clone ${PARENT_THEME_REPO} ${VVV_PATH_TO_SITE}/public_html/wp-content/
     fi
 
-    if [ -z ${PARENT_THEME_REPO} ]; then
+    if [ ${CHILD_THEME_REPO} ]; then
       echo "Downloading Child Theme..."
       git clone ${CHILD_THEME_REPO} ${VVV_PATH_TO_SITE}/public_html/wp-content/themes/${CHILD_THEME_NAME}
     fi
 
-
+  else 
+    echo "Downloading WordPress..."
+    noroot wp core download --version="${WP_VERSION}"  
   fi
 
 fi
@@ -76,18 +94,15 @@ if ! $(noroot wp core is-installed); then
   echo "Installing WordPress Stable..."
 
   if [ "${WP_TYPE}" = "subdomain" ]; then
-    echo "1"
     INSTALL_COMMAND="multisite-install --subdomains"
   elif [ "${WP_TYPE}" = "subdirectory" ]; then
-    echo "2"
     INSTALL_COMMAND="multisite-install"
   else
-    echo "3"
     INSTALL_COMMAND="install"
   fi
 
-  echo "4"
   noroot wp core ${INSTALL_COMMAND} --url="${DOMAIN}" --quiet --title="${SITE_TITLE}" --admin_name=admin --admin_email="admin@local.test" --admin_password="password"
+
 else
   echo "Updating WordPress Stable..."
   cd ${VVV_PATH_TO_SITE}/public_html
