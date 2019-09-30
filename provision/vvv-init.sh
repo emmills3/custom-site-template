@@ -3,15 +3,25 @@
 
 echo "Custom fork"
 
-echo Hello, who am I talking to?
+echo get_config_value 'foobar'
 
-read varname
-
-echo It\'s nice to meet you $varname
-
-echo "`get_config_value 'site_title' "${DOMAIN}"`"
+echo "1"
 
 echo `get_config_value 'foobar'`
+
+echo "2"
+
+echo "get_config_value 'foobar'"
+
+echo "3"
+
+FOOBAR=`get_config_value 'foobar' 'default'`
+
+echo "4"
+
+echo "${FOOBAR}"
+
+echo "5"
 
 # fetch the first host as the primary domain. If none is available, generate a default using the site name
 DOMAIN=`get_primary_host "${VVV_SITE_NAME}".test`
