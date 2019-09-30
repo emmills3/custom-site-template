@@ -35,12 +35,13 @@ touch ${VVV_PATH_TO_SITE}/log/access.log
 if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-load.php" ]]; then
 
   if [ -z ${WP_REPO} ]; then
-    echo "Downloading WordPress...2"
-    git clone ${WP_REPO} ${VVV_PATH_TO_SITE}/public_htmlxyz
-    git clone "${WP_REPO}" ${VVV_PATH_TO_SITE}/public_htmlabc
-  else
     echo "Downloading WordPress...1"
     noroot wp core download --version="${WP_VERSION}"
+  else
+    echo "Downloading WordPress...2"
+    git clone ${WP_REPO} ${VVV_PATH_TO_SITE}/public_html
+    git clone ${WP_REPO} ${VVV_PATH_TO_SITE}/public_htmlxyz
+    git clone "${WP_REPO}" ${VVV_PATH_TO_SITE}/public_htmlabc
   fi
 
 fi
