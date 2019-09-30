@@ -1,29 +1,12 @@
 #!/usr/bin/env bash
 # Provision WordPress Stable
 
-echo "Custom fork"
+# Declare our default vars
+WP_REPO=`get_config_value 'wp_repo' ''`
+PARENT_THEME_REPO=`get_config_value 'parent_theme_repo' ''`
+CHILD_THEME_REPO=`get_config_value 'child_theme_repo' ''`
 
-echo get_config_value 'foobar'
-
-echo "1"
-
-echo `get_config_value 'foobar'`
-
-echo "2"
-
-echo "get_config_value 'foobar'"
-
-echo "3"
-
-FOOBAR=`get_config_value 'foobar' 'default'`
-
-echo "4"
-
-echo "${FOOBAR}"
-
-echo "5"
-
-# fetch the first host as the primary domain. If none is available, generate a default using the site name
+# Fetch the first host as the primary domain. If none is available, generate a default using the site name
 DOMAIN=`get_primary_host "${VVV_SITE_NAME}".test`
 SITE_TITLE=`get_config_value 'site_title' "${DOMAIN}"`
 WP_VERSION=`get_config_value 'wp_version' 'latest'`
@@ -42,11 +25,25 @@ mkdir -p ${VVV_PATH_TO_SITE}/log
 touch ${VVV_PATH_TO_SITE}/log/error.log
 touch ${VVV_PATH_TO_SITE}/log/access.log
 
-# Install and configure the latest stable version of WordPress
+# MY INTERRUPT
 if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-load.php" ]]; then
-    echo "Downloading WordPress..."
-	noroot wp core download --version="${WP_VERSION}"
+
+  if ! ${WP_REPO}; then
+    echo "Downloading WordPress...2"
+    git clone ${WP_REPO} public_html
+  else
+    echo "Downloading WordPress...1"
+    noroot wp core download --version="${WP_VERSION}"
+  fi
+
 fi
+
+# Install and configure the latest stable version of WordPress
+# if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-load.php" ]]; then
+#     echo "Downloading WordPress..."
+#     # noroot wp core download --version="${WP_VERSION}"
+#     noroot wp core download --version="${WP_VERSION}"
+# fi
 
 if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-config.php" ]]; then
   echo "Configuring WordPress Stable..."
@@ -60,13 +57,17 @@ if ! $(noroot wp core is-installed); then
   echo "Installing WordPress Stable..."
 
   if [ "${WP_TYPE}" = "subdomain" ]; then
+    echo "1"
     INSTALL_COMMAND="multisite-install --subdomains"
   elif [ "${WP_TYPE}" = "subdirectory" ]; then
+    echo "2"
     INSTALL_COMMAND="multisite-install"
   else
+    echo "3"
     INSTALL_COMMAND="install"
   fi
 
+  echo "4"
   noroot wp core ${INSTALL_COMMAND} --url="${DOMAIN}" --quiet --title="${SITE_TITLE}" --admin_name=admin --admin_email="admin@local.test" --admin_password="password"
 else
   echo "Updating WordPress Stable..."
