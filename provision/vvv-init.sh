@@ -40,8 +40,6 @@ if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-load.php" ]]; then
   else
     echo "Downloading WordPress...2"
     git clone ${WP_REPO} ${VVV_PATH_TO_SITE}/public_html
-    git clone ${WP_REPO} ${VVV_PATH_TO_SITE}/public_htmlxyz
-    git clone "${WP_REPO}" ${VVV_PATH_TO_SITE}/public_htmlabc
   fi
 
 fi
