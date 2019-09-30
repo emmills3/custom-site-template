@@ -42,7 +42,7 @@ if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-load.php" ]]; then
     echo "Downloading Custom WordPress..."
     git clone ${WP_REPO} ${VVV_PATH_TO_SITE}/public_html
 
-    if [ -z ${PARENT_THEME_REPO} ]; then
+    if [ ${PARENT_THEME_REPO} ]; then
       echo "Downloading Parent Theme..."
       git clone ${PARENT_THEME_REPO} ${VVV_PATH_TO_SITE}/public_html/wp-content/${PARENT_THEME_NAME}
     fi
