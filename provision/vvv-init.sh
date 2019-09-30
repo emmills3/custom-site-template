@@ -6,11 +6,11 @@ WP_REPO=`get_config_value 'wp_repo' ''`
 PARENT_THEME_REPO=`get_config_value 'parent_theme_repo' ''`
 CHILD_THEME_REPO=`get_config_value 'child_theme_repo' ''`
 
-echo "start"
+echo "BK1"
 echo "${WP_REPO}"
 echo "${PARENT_THEME_REPO}"
 echo "${CHILD_THEME_REPO}"
-echo "end"
+echo "BK2"
 
 # Fetch the first host as the primary domain. If none is available, generate a default using the site name
 DOMAIN=`get_primary_host "${VVV_SITE_NAME}".test`
