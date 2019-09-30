@@ -10,46 +10,6 @@ echo "${WP_REPO}"
 echo "${PARENT_THEME_REPO}"
 echo "${CHILD_THEME_REPO}"
 
-if [ "${WP_REPO}" != "" ]; then
-  echo "Yes"
-fi
-
-if [ "${WP_REPO}" = "" ]; then
-  echo "blank"
-fi
-
-if [ ! "${WP_REPO}" ]; then
-  echo "last"
-fi
-
-if [ "${WP_REPO}" ]; then
-  echo "final"
-fi
-
-if [ -z "${WP_REPO}" ]; then
-  echo "z1"
-fi
-
-if [ ${WP_REPO} != "" ]; then
-  echo "Yes22"
-fi
-
-if [ ${WP_REPO} = "" ]; then
-  echo "blan22k"
-fi
-
-if [ ! ${WP_REPO} ]; then
-  echo "la222st"
-fi
-
-if [ ${WP_REPO} ]; then
-  echo "fi22nal"
-fi
-
-if [ -z ${WP_REPO} ]; then
-  echo "z122"
-fi
-
 # Fetch the first host as the primary domain. If none is available, generate a default using the site name
 DOMAIN=`get_primary_host "${VVV_SITE_NAME}".test`
 SITE_TITLE=`get_config_value 'site_title' "${DOMAIN}"`
@@ -72,7 +32,7 @@ touch ${VVV_PATH_TO_SITE}/log/access.log
 # MY INTERRUPT
 if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-load.php" ]]; then
 
-  if [ "${WP_REPO}" != "" ]; then
+  if [ -z ${WP_REPO} ]; then
     echo "Downloading WordPress...2"
     git clone ${WP_REPO} public_html
   else
