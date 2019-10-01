@@ -117,6 +117,8 @@ fi
 
 echo "constants"
 
+noroot wp config set FOOBAR "https://" --raw
+
 get_config_value 'wpconfig_constants' |
 echo "constants2"
   while IFS='' read -r -d '' key &&
