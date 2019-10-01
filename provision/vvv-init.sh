@@ -114,7 +114,10 @@ fi
 
 echo "constants"
 
-noroot wp config set FOOBAR "https://" --raw
+noroot wp config set FOOBAR "https://${DOMAIN}"
+noroot wp config set WP_DEBUG true --raw
+
+echo "yo"
 
 get_config_value 'wpconfig_constants' |
 echo "constants2"
