@@ -60,10 +60,7 @@ if [ "${WP_TYPE}" != "none" ]; then
 
   if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-config.php" ]]; then
     echo "Configuring WordPress Stable..."
-    noroot wp core config --dbname="${DB_NAME}" --dbuser=wp --dbpass=wp --quiet --extra-php <<PHP
-define( 'WP_DEBUG', true );
-define( 'SCRIPT_DEBUG', true );
-PHP
+    noroot wp core config --dbname="${DB_NAME}" --dbuser=wp --dbpass=wp --quiet
   fi
 
   if ! $(noroot wp core is-installed); then
@@ -121,8 +118,8 @@ noroot wp config set FOOBAR "https://" --raw
 
 get_config_value 'wpconfig_constants' |
 echo "constants2"
-  while IFS='' read -r -d '' key &&
-        IFS='' read -r -d '' value; do
+  while IFS=' ' read -r -d ' ' key &&
+        IFS=' ' read -r -d ' ' value; do
       noroot wp config set "${key}" "${value}" --raw
   done
   
