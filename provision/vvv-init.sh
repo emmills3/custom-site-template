@@ -8,6 +8,9 @@ WP_REPO=`get_config_value 'wp_repo' ''`
 PARENT_THEME_REPO=`get_config_value 'parent_theme_repo' ''`
 CHILD_THEME_REPO=`get_config_value 'child_theme_repo' ''`
 CHILD_THEME_NAME=`get_config_value 'child_theme_name' 'child-theme'`
+FOOBAR=`get_config_value 'wpconfig_constants' ''`
+
+echo "${FOOBAR}"
 
 # Fetch the first host as the primary domain. If none is available, generate a default using the site name
 DOMAIN=`get_primary_host "${VVV_SITE_NAME}".test`
@@ -112,8 +115,10 @@ else
     sed -i "s#{{TLS_KEY}}##" "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf"
 fi
 
+echo "constants"
 
 get_config_value 'wpconfig_constants' |
+echo "constants2"
   while IFS='' read -r -d '' key &&
         IFS='' read -r -d '' value; do
       noroot wp config set "${key}" "${value}" --raw
