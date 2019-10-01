@@ -119,10 +119,14 @@ noroot wp config set WP_DEBUG true --raw
 
 echo "yo"
 
+echo "${FOOBAR}"
+
 get_config_value 'wpconfig_constants' |
 echo "constants2"
-  while IFS=' ' read -r -d ' ' key &&
-        IFS=' ' read -r -d ' ' value; do
+  while IFS='' read -r -d ': ' key &&
+        IFS='' read -r -d ' ' value; do
+      echo "${key}"
+      echo "${value}"
       noroot wp config set "${key}" "${value}" --raw
   done
   
