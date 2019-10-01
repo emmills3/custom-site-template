@@ -8,9 +8,6 @@ WP_REPO=`get_config_value 'wp_repo' ''`
 PARENT_THEME_REPO=`get_config_value 'parent_theme_repo' ''`
 CHILD_THEME_REPO=`get_config_value 'child_theme_repo' ''`
 CHILD_THEME_NAME=`get_config_value 'child_theme_name' 'child-theme'`
-FOOBAR=`get_config_value 'wpconfig_constants' ''`
-
-echo "${FOOBAR}"
 
 # Fetch the first host as the primary domain. If none is available, generate a default using the site name
 DOMAIN=`get_primary_host "${VVV_SITE_NAME}".test`
@@ -26,7 +23,6 @@ mysql -u root --password=root -e "CREATE DATABASE IF NOT EXISTS ${DB_NAME}"
 echo -e "\nGranting the wp user priviledges to the '${DB_NAME}' database"
 mysql -u root --password=root -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO wp@localhost IDENTIFIED BY 'wp';"
 echo -e "\n DB operations done.\n\n"
-
 
 echo "Setting up the log subfolder for Nginx logs"
 noroot mkdir -p ${VVV_PATH_TO_SITE}/log
@@ -112,19 +108,15 @@ else
     sed -i "s#{{TLS_KEY}}##" "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf"
 fi
 
-echo "constants"
-
-noroot wp config set FOOBAR "https://${DOMAIN}"
+noroot wp config set WP_SITEURL "https://${DOMAIN}"
+noroot wp config set WP_HOME "https://${DOMAIN}"
 noroot wp config set WP_DEBUG true --raw
 
-echo "yo"
-
-echo "${FOOBAR}"
-
+# Below not working as expected
 get_config_value 'wpconfig_constants' |
 echo "constants2"
-  while IFS='' read -r -d ': ' key &&
-        IFS='' read -r -d ' ' value; do
+  while IFS='' read -r -d '' key &&
+        IFS='' read -r -d '' value; do
       echo "${key}"
       echo "${value}"
       noroot wp config set "${key}" "${value}" --raw
