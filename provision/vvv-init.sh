@@ -111,6 +111,9 @@ fi
 noroot wp config set WP_SITEURL "https://${DOMAIN}"
 noroot wp config set WP_HOME "https://${DOMAIN}"
 noroot wp config set WP_DEBUG true --raw
+noroot wp config set FS_METHOD "direct"
+noroot wp config set FS_CHMOD_DIR 0775 --raw
+noroot wp config set FS_CHMOD_FILE 0664 --raw
 
 # Below not working as expected
 get_config_value 'wpconfig_constants' |
